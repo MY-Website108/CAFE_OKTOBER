@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cafe Oktober | Magic Kitchen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap');
@@ -21,11 +22,12 @@
             scroll-behavior: smooth;
             overflow-x: hidden;
             padding-bottom: 80px;
+            width: 100%;
         }
 
         .royal-header {
             font-family: 'Playfair Display', serif;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.15em;
             text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
         }
 
@@ -36,16 +38,16 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 0 15px;
         }
 
-        /* --- FIXED BOTTOM NAVIGATION WITH GRADIENT ANIMATION --- */
+        /* --- FIXED BOTTOM NAVIGATION --- */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 70px;
-            /* Animated Gradient Background */
             background: linear-gradient(270deg, #3a69d6, #fc6640, #d71d1d, #9fac09);
             background-size: 600% 600%;
             animation: navGradientMove 10s ease infinite;
@@ -77,6 +79,12 @@
             background: none;
             border: none;
             cursor: pointer;
+            flex: 1;
+        }
+
+        .nav-icon { 
+            font-size: 1.2rem; 
+            margin-bottom: 4px; 
         }
 
         .bottom-nav a:hover, .bottom-nav button:hover {
@@ -84,19 +92,14 @@
             transform: translateY(-2px);
         }
 
-        .nav-icon {
-            font-size: 1.1rem;
-            margin-bottom: 2px;
-        }
-
         /* --- HERO & SLIDESHOW --- */
         .hero-dish-container {
-            position: relative; width: 300px; height: 300px;
+            position: relative; width: 260px; height: 260px;
             display: flex; justify-content: center; align-items: center;
         }
 
         .dish-wrapper {
-            position: absolute; width: 260px; height: 260px;
+            position: absolute; width: 220px; height: 220px;
             filter: drop-shadow(0 20px 50px rgba(0,0,0,0.9));
             animation: float 2.5s ease-in-out infinite; z-index: 2;
         }
@@ -110,47 +113,92 @@
 
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(4deg); }
+            50% { transform: translateY(-15px) rotate(4deg); }
         }
 
         .orbit-item {
-            position: absolute; font-size: 2.5rem;
-            animation: circularOrbit 3s linear infinite;
+            position: absolute; font-size: 2rem;
+            animation: circularOrbit 3.5s linear infinite;
             z-index: 3; pointer-events: none;
         }
 
         @keyframes circularOrbit {
-            from { transform: rotate(0deg) translateX(160px) rotate(0deg); }
-            to { transform: rotate(360deg) translateX(160px) rotate(-360deg); }
+            from { transform: rotate(0deg) translateX(130px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(130px) rotate(-360deg); }
         }
 
-        /* --- CIRCLE CAROUSEL (Specials) --- */
+        /* --- SPECIALS SECTION: CAROUSEL & ORIGIN CENTER --- */
+        .specials-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* The origin dish - fixed at (0,0) center point */
+        .carousel-origin {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            background: #2a0f0f;
+            border: 3px solid var(--gold);
+            border-radius: 50%;
+            overflow: hidden;
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+        }
+
+        /* The orbiting dashed circle */
         .circle-carousel {
-            width: 280px; height: 280px; border: 1px dashed rgba(251, 191, 36, 0.3);
-            border-radius: 50%; position: relative; animation: rotateFull 15s linear infinite;
+            width: 240px; 
+            height: 240px; 
+            border: 1px dashed rgba(251, 191, 36, 0.3);
+            border-radius: 50%; 
+            position: absolute; 
+            animation: rotateFull 15s linear infinite;
+            z-index: 10;
         }
 
         .carousel-item {
-            position: absolute; width: 85px; height: 85px; background: #1e293b; 
-            border: 2px solid var(--gold); border-radius: 50%; overflow: hidden;
-            display: flex; justify-content: center; align-items: center;
+            position: absolute; 
+            width: 65px; 
+            height: 65px; 
+            background: #1e293b; 
+            border: 2px solid var(--gold); 
+            border-radius: 50%; 
+            overflow: hidden;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
             animation: rotateFull 15s linear infinite reverse;
         }
 
-        .carousel-item img { width: 100%; height: 100%; object-fit: cover; }
+        .carousel-origin img, .carousel-item img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
 
-        @keyframes rotateFull { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rotateFull { 
+            from { transform: rotate(0deg); } 
+            to { transform: rotate(360deg); } 
+        }
 
-        /* --- CARDS & VIDEO --- */
         .about-card {
             background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px);
             border: 1px solid rgba(251, 191, 36, 0.2); border-radius: 24px;
-            padding: 2.5rem; transition: all 0.4s ease;
+            padding: 1.5rem; transition: all 0.4s ease;
         }
 
         .video-container {
             position: relative; border-radius: 20px; overflow: hidden;
             border: 2px solid rgba(251, 191, 36, 0.3); background: black;
+            aspect-ratio: 16/9;
         }
 
         .thank-you-text {
@@ -162,83 +210,56 @@
             display: inline-block;
         }
 
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
+        @keyframes shine { to { background-position: 200% center; } }
         @keyframes glowPulse {
             0%, 100% { filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.3)); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.5)); transform: scale(1.02); }
+            50% { filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5)); transform: scale(1.02); }
         }
 
-        /* Testimonial Slider Styles */
-        .testimonial-container {
-            position: relative;
-            max-width: 400px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-
-        .testimonial-slide {
-            display: none;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        .testimonial-slide.active {
-            display: block;
-        }
-
-        .testimonial-img {
-            width: 100%;
-            height: auto;
-            border-radius: 20px;
-            border: 2px solid var(--gold);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+        .testimonial-container { position: relative; width: 100%; max-width: 350px; margin: 0 auto; overflow: hidden; }
+        .testimonial-slide { display: none; animation: slideIn 0.5s ease-out; }
+        .testimonial-slide.active { display: block; }
+        .testimonial-img { width: 100%; height: auto; border-radius: 20px; border: 2px solid var(--gold); }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
     </style>
 </head>
 <body>
 
-    <header class="fixed top-0 w-full z-50 py-4 bg-slate-950/60 backdrop-blur-md border-b border-slate-800 flex justify-center items-center px-6">
-        <h1 class="royal-header text-xl md:text-3xl font-bold italic text-amber-500 uppercase">Cafe Oktober</h1>
+    <header class="fixed top-0 w-full z-50 py-3 bg-slate-950/80 backdrop-blur-md border-b border-slate-800 flex justify-center items-center px-4">
+        <h1 class="royal-header text-lg md:text-3xl font-bold italic text-amber-500 uppercase">Cafe Oktober</h1>
     </header>
 
     <nav class="bottom-nav">
         <a href="#home">
-            <span class="nav-icon">🏠</span>
+            <i class="fas fa-home nav-icon"></i>
             <span>Home</span>
         </a>
         <a href="https://my-website108.github.io/menu-of-CAFE-OKTOBER/">
-            <span class="nav-icon">🍽️</span>
+            <i class="fas fa-utensils nav-icon"></i>
             <span>Menu</span>
         </a>
         <a href="#testimonials">
-            <span class="nav-icon">⭐</span>
+            <i class="fas fa-star nav-icon"></i>
             <span>Reviews</span>
         </a>
         <a href="chefs.html" target="_blank">
-            <span class="nav-icon">👨‍🍳</span>
+            <i class="fas fa-user-tie nav-icon"></i>
             <span>Chefs</span>
         </a>
         <button onclick="showEventsAlert()">
-            <span class="nav-icon">✨</span>
+            <i class="fas fa-calendar-star nav-icon"></i>
             <span>Events</span>
         </button>
         <a href="#feedbackSection">
-            <span class="nav-icon">💬</span>
+            <i class="fas fa-comment-dots nav-icon"></i>
             <span>Feedback</span>
         </a>
     </nav>
 
-    <section id="home" class="home-bg pt-20">
+    <section id="home" class="home-bg pt-24 pb-10">
         <div class="hero-dish-container">
             <div class="orbit-item">🍃</div>
-            <div class="absolute w-64 h-64 bg-amber-500/10 blur-[80px] rounded-full"></div>
+            <div class="absolute w-48 h-48 bg-amber-500/10 blur-[60px] rounded-full"></div>
             <div class="dish-wrapper" id="slideshow">
                 <img src="https://img.icons8.com/plasticine/400/spaghetti.png" class="slide-img active" alt="Dish 1">
                 <img src="https://img.icons8.com/plasticine/400/pizza.png" class="slide-img" alt="Dish 2">
@@ -246,35 +267,42 @@
                 <img src="https://img.icons8.com/plasticine/400/sushi.png" class="slide-img" alt="Dish 4">
             </div>
         </div>
-        <div class="text-center mt-10 px-4">
-            <h2 class="text-5xl md:text-7xl font-serif italic mb-2">Magic Kitchen</h2>
-            <p class="text-slate-400 uppercase tracking-widest text-xs">Flavor meets elegance in Bongaigaon</p>
+        <div class="text-center mt-6 px-4">
+            <h2 class="text-4xl md:text-7xl font-serif italic mb-2">Magic Kitchen</h2>
+            <p class="text-slate-400 uppercase tracking-widest text-[10px]">Flavor meets elegance in Bongaigaon</p>
             <a href="https://my-website108.github.io/menu-of-CAFE-OKTOBER/" 
-               class="inline-block mt-8 px-10 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-full transition-transform active:scale-95 shadow-lg font-bold">
+               class="inline-block mt-6 px-8 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-full transition-transform active:scale-95 shadow-lg font-bold text-sm">
                Reserve Now
             </a>
         </div>
     </section>
 
-    <section id="special" class="py-24 flex flex-col items-center bg-slate-900/30">
-        <h2 class="text-3xl font-serif mb-20 text-amber-500 uppercase tracking-widest">Our Specials</h2>
-        <div class="circle-carousel">
-            <div class="carousel-item" style="top: -42px; left: 97px;"><img src="dish1.png" alt="1"></div>
-            <div class="carousel-item" style="top: 97px; right: -42px;"><img src="dish2.png" alt="2"></div>
-            <div class="carousel-item" style="bottom: -42px; left: 97px;"><img src="dish3.png" alt="3"></div>
-            <div class="carousel-item" style="top: 97px; left: -42px;"><img src="dish4.png" alt="4"></div>
+    <section id="special" class="py-16 flex flex-col items-center bg-slate-900/30">
+        <h2 class="text-2xl font-serif mb-16 text-amber-500 uppercase tracking-widest">Our Specials</h2>
+        
+        <div class="specials-container">
+            <div class="carousel-origin">
+                <img src="chai.png" alt="Chai Original">
+            </div>
+            
+            <div class="circle-carousel">
+                <div class="carousel-item" style="top: -32px; left: 88px;"><img src="dish1.png" alt="1"></div>
+                <div class="carousel-item" style="top: 88px; right: -32px;"><img src="dish2.png" alt="2"></div>
+                <div class="carousel-item" style="bottom: -32px; left: 88px;"><img src="dish3.png" alt="3"></div>
+                <div class="carousel-item" style="top: 88px; left: -32px;"><img src="dish4.png" alt="4"></div>
+            </div>
         </div>
     </section>
 
-    <section id="about" class="py-24 px-6 bg-slate-950/20 scroll-mt-20">
-        <div class="max-w-5xl mx-auto space-y-10">
-            <h2 class="text-4xl font-serif text-amber-500 text-center uppercase italic">Our Story</h2>
+    <section id="about" class="py-16 px-6 bg-slate-950/20 scroll-mt-20">
+        <div class="max-w-5xl mx-auto space-y-8">
+            <h2 class="text-3xl font-serif text-amber-500 text-center uppercase italic">Our Story</h2>
             
             <div class="about-card">
-                <p class="text-slate-200 leading-relaxed text-lg mb-8">
+                <p class="text-slate-200 leading-relaxed text-md mb-6">
                     <span class="text-amber-500 font-bold">Cafe Oktober</span> in Bongaigaon, Assam, is a popular eatery known for its cozy ambiance, diverse menu, and aromatic coffees. From biryanis to pastries, we offer a vibrant spot for every gathering.
                 </p>
-                <div class="grid md:grid-cols-2 gap-6 text-sm border-t border-amber-500/20 pt-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs border-t border-amber-500/20 pt-6">
                     <div>
                         <p><strong class="text-amber-400">Cuisine:</strong> Indian, Chinese, Continental.</p>
                         <p><strong class="text-amber-400">Features:</strong> Live Music & Cool Drinks.</p>
@@ -288,10 +316,10 @@
 
             <div class="about-card">
                 <div class="video-container">
-                    <video id="aboutVideo" class="w-full h-auto" loop muted playsinline>
+                    <video id="aboutVideo" class="w-full h-full object-cover" loop muted playsinline>
                         <source src="about.mp4" type="video/mp4">
                     </video>
-                    <button onclick="toggleMute()" class="absolute bottom-4 right-4 bg-amber-600 p-3 rounded-full z-10">
+                    <button onclick="toggleMute()" class="absolute bottom-4 right-4 bg-amber-600/80 p-2 rounded-full z-10">
                         <span id="muteIcon">🔇</span>
                     </button>
                 </div>
@@ -299,9 +327,9 @@
         </div>
     </section>
 
-    <section id="testimonials" class="py-24 px-6 bg-slate-900/40 scroll-mt-20">
+    <section id="testimonials" class="py-16 px-6 bg-slate-900/40 scroll-mt-20">
         <div class="max-w-5xl mx-auto">
-            <h2 class="text-4xl font-serif text-amber-500 text-center uppercase italic mb-12">Voices of Our Guests</h2>
+            <h2 class="text-3xl font-serif text-amber-500 text-center uppercase italic mb-10">Voices of Our Guests</h2>
             <div class="testimonial-container">
                 <div class="testimonial-slide active">
                     <img src="abcd.png" alt="Testimonial 1" class="testimonial-img">
@@ -321,124 +349,93 @@
         </div>
     </section>
 
-    <section id="location" class="py-24 px-6 bg-slate-950">
+    <section id="location" class="py-16 px-4 bg-slate-950">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-4xl font-serif text-amber-500 text-center uppercase italic mb-12 tracking-widest">Our Location</h2>
-            <div class="grid md:grid-cols-4 gap-6 items-stretch">
-                <div class="bg-slate-900 border border-amber-500/20 p-8 rounded-3xl md:col-span-1 flex flex-col justify-center shadow-xl">
-                    <div class="mb-6">
-                        <h3 class="text-amber-500 font-bold uppercase text-xs tracking-tighter mb-2">Find Us At</h3>
-                        <p class="text-slate-200 text-sm">Chapaguri Road, North Bongaigaon,<br>Near Agarwala Hospital,<br>Assam 783380</p>
+            <h2 class="text-3xl font-serif text-amber-500 text-center uppercase italic mb-8 tracking-widest">Our Location</h2>
+            <div class="flex flex-col gap-6 items-stretch">
+                <div class="bg-slate-900 border border-amber-500/20 p-6 rounded-3xl flex flex-col justify-center shadow-xl">
+                    <div class="mb-4">
+                        <h3 class="text-amber-500 font-bold uppercase text-xs tracking-tighter mb-1">Find Us At</h3>
+                        <p class="text-slate-200 text-xs">Chapaguri Road, North Bongaigaon,<br>Near Agarwala Hospital, Assam 783380</p>
                     </div>
-                    <div class="mb-8">
-                        <h3 class="text-amber-500 font-bold uppercase text-xs tracking-tighter mb-2">Delivery Partners</h3>
-                        <p class="text-slate-200 text-sm italic">Available on Swiggy & Zomato</p>
+                    <div class="mb-6">
+                        <h3 class="text-amber-500 font-bold uppercase text-xs tracking-tighter mb-1">Delivery Partners</h3>
+                        <p class="text-slate-200 text-xs italic">Available on Swiggy & Zomato</p>
                     </div>
                     <a href="https://maps.google.com" target="_blank" 
-                       class="text-center bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg active:scale-95">
+                       class="text-center bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg text-sm">
                         View Larger Map
                     </a>
                 </div>
 
-                <div class="md:col-span-3 h-[500px] rounded-3xl overflow-hidden border-4 border-slate-800 shadow-2xl">
-                    <iframe 
-                        width="100%" 
-                        height="100%" 
-                        frameborder="0" 
-                        scrolling="no" 
-                        src="https://maps.google.com/maps?q=Cafe%20Oktober%20Bongaigaon&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                        style="border:0;">
+                <div class="h-[300px] rounded-3xl overflow-hidden border-2 border-slate-800 shadow-2xl">
+                    <iframe width="100%" height="100%" frameborder="0" scrolling="no" 
+                        src="https://maps.google.com/maps?q=Cafe%20Oktober%20Bongaigaon&t=&z=13&ie=UTF8&iwloc=&output=embed" style="border:0;">
                     </iframe>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="feedbackSection" class="py-24 px-6 border-t border-amber-500/10 scroll-mt-20">
+    <section id="feedbackSection" class="py-16 px-6 border-t border-amber-500/10 scroll-mt-20">
         <div class="max-w-xl mx-auto about-card">
-            <h2 class="text-3xl font-serif text-amber-500 text-center mb-8 italic">Please give Feedback</h2>
+            <h2 class="text-2xl font-serif text-amber-500 text-center mb-6 italic">Please give Feedback</h2>
             <form id="feedbackForm" class="space-y-4" onsubmit="sendWhatsAppFeedback(event)">
-                <input type="text" id="feedbackName" placeholder="Name" required class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl text-white outline-none focus:border-amber-500">
-                <textarea id="feedbackMessage" placeholder="Your Experience..." rows="4" required class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl text-white outline-none focus:border-amber-500"></textarea>
-                <button type="submit" class="w-full bg-amber-600 py-4 rounded-xl font-bold hover:bg-amber-500 transition-all active:scale-95 shadow-lg">Send Feedback</button>
+                <input type="text" id="feedbackName" placeholder="Name" required class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl text-white outline-none focus:border-amber-500 text-sm">
+                <textarea id="feedbackMessage" placeholder="Your Experience..." rows="4" required class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl text-white outline-none focus:border-amber-500 text-sm"></textarea>
+                <button type="submit" class="w-full bg-amber-600 py-3 rounded-xl font-bold hover:bg-amber-500 transition-all text-sm">Send Feedback</button>
             </form>
         </div>
     </section>
 
-    <footer class="bg-slate-950 pt-20 pb-24 px-6 border-t border-amber-500/10 relative">
+    <footer class="bg-slate-950 pt-16 pb-24 px-6 border-t border-amber-500/10 relative">
         <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
-                class="absolute -top-6 left-1/2 -translate-x-1/2 bg-amber-600 hover:bg-amber-500 p-3 rounded-full shadow-2xl transition-all active:scale-90">
-            <img src="https://img.icons8.com/ios-filled/24/ffffff/up.png" alt="Top">
+                class="absolute -top-6 left-1/2 -translate-x-1/2 bg-amber-600 p-3 rounded-full shadow-2xl">
+            <i class="fas fa-chevron-up text-white"></i>
         </button>
 
         <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-12 text-center md:text-left mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left mb-12">
                 <div>
-                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-6">Order Online</h3>
-                    <div class="flex flex-col space-y-4">
-                        <a href="https://www.swiggy.com/city/bongaigaon/cafe-oktober-chapaguri-road-chapaguri-road-bongaigaon-rest416825" target="_blank" class="text-slate-400 hover:text-white transition-colors flex items-center justify-center md:justify-start gap-2">
-                            🛵 Order via Swiggy
-                        </a>
-                        <a href="http://zoma.to/r/19889442" target="_blank" class="text-slate-400 hover:text-white transition-colors flex items-center justify-center md:justify-start gap-2">
-                            🍴 Order via Zomato
-                        </a>
+                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-4 text-sm">Order Online</h3>
+                    <div class="flex flex-col space-y-3 text-sm">
+                        <a href="https://www.swiggy.com/city/bongaigaon/cafe-oktober-chapaguri-road-chapaguri-road-bongaigaon-rest416825" target="_blank" class="text-slate-400"><i class="fas fa-motorcycle mr-2"></i> Swiggy</a>
+                        <a href="http://zoma.to/r/19889442" target="_blank" class="text-slate-400"><i class="fas fa-utensils mr-2"></i> Zomato</a>
                     </div>
                 </div>
-
                 <div>
-                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-6">Follow The Magic</h3>
+                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-4 text-sm">Follow Us</h3>
                     <div class="flex justify-center md:justify-start gap-6">
-                        <a href="https://www.instagram.com/cafe_oktober_bongaigaon" target="_blank" class="hover:scale-110 transition-transform">
-                            <img src="https://img.icons8.com/ios-filled/30/fbbf24/instagram-new.png" alt="Instagram">
-                        </a>
-                        <a href="https://www.facebook.com/CafeOktober/" target="_blank" class="hover:scale-110 transition-transform">
-                            <img src="https://img.icons8.com/ios-filled/30/fbbf24/facebook-new.png" alt="Facebook">
-                        </a>
+                        <a href="https://www.instagram.com/cafe_oktober_bongaigaon" target="_blank"><i class="fab fa-instagram text-xl text-amber-500"></i></a>
+                        <a href="https://www.facebook.com/CafeOktober/" target="_blank"><i class="fab fa-facebook text-xl text-amber-500"></i></a>
                     </div>
                 </div>
-
-                <div>
-                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-6">Policy</h3>
-                    <ul class="text-slate-400 text-sm space-y-2">
-                        <li><span class="text-slate-500">© 2025 Cafe Oktober. All Rights Reserved.</span></li>
-                    </ul>
+                <div class="text-xs text-slate-500">
+                    <p>© 2025 Cafe Oktober. All Rights Reserved.</p>
                 </div>
             </div>
 
-            <hr class="border-slate-800 mb-10">
-
-            <div class="text-center overflow-hidden">
-                <h2 class="thank-you-text text-4xl md:text-7xl font-serif italic text-amber-500 py-4">
-                    Thank You for Visiting!
-                </h2>
-                <p class="text-slate-600 text-[10px] mt-8 uppercase tracking-[0.8em]">Bongaigaon's Magic Kitchen</p>
+            <div class="text-center">
+                <h2 class="thank-you-text text-3xl md:text-7xl font-serif italic py-2">Thank You for Visiting!</h2>
+                <p class="text-slate-600 text-[8px] mt-4 uppercase tracking-[0.5em]">Bongaigaon's Magic Kitchen</p>
             </div>
         </div>
     </footer>
 
     <div id="eventsModal" class="fixed inset-0 z-[1000] hidden items-center justify-center px-6 bg-slate-950/90 backdrop-blur-sm">
-        <div class="bg-slate-900 border-2 border-amber-500/30 p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl transform transition-all">
+        <div class="bg-slate-900 border-2 border-amber-500/30 p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl">
             <div class="text-4xl mb-4">✨</div>
-            <h2 class="text-2xl font-serif italic text-amber-500 mb-2">Stay Updated!</h2>
-            <p class="text-slate-400 text-sm mb-8 leading-relaxed">
-                Follow our social media pages to get the latest updates on live music, special menus, and upcoming events!
-            </p>
+            <h2 class="text-xl font-serif italic text-amber-500 mb-2">Stay Updated!</h2>
+            <p class="text-slate-400 text-xs mb-6">Follow our social media for live music and special events!</p>
             <div class="flex flex-col gap-3">
-                <a href="https://www.instagram.com/cafe_oktober_bongaigaon" target="_blank" class="bg-amber-600 hover:bg-amber-500 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
-                    📸 Follow on Instagram
-                </a>
-                <a href="https://www.facebook.com/CafeOktober/" target="_blank" class="bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all border border-slate-700">
-                    🔵 Follow on Facebook
-                </a>
-                <button onclick="closeEventsAlert()" class="mt-4 text-slate-500 text-xs uppercase tracking-widest hover:text-white">
-                    Close
-                </button>
+                <a href="https://www.instagram.com/cafe_oktober_bongaigaon" target="_blank" class="bg-amber-600 py-3 rounded-xl font-bold text-sm">📸 Instagram</a>
+                <a href="https://www.facebook.com/CafeOktober/" target="_blank" class="bg-slate-800 py-3 rounded-xl font-bold text-sm border border-slate-700">🔵 Facebook</a>
+                <button onclick="closeEventsAlert()" class="mt-2 text-slate-500 text-[10px] uppercase">Close</button>
             </div>
         </div>
     </div>
 
     <script>
-        // SLIDESHOW LOGIC
         const images = document.querySelectorAll('.slide-img');
         let currentIndex = 0;
         setInterval(() => {
@@ -447,11 +444,9 @@
             images[currentIndex].classList.add('active');
         }, 3000);
 
-        // TESTIMONIAL SLIDER LOGIC
         const tSlides = document.querySelectorAll('.testimonial-slide');
         const tDots = document.querySelectorAll('.t-dot');
         let tIndex = 0;
-
         function showNextTestimonial() {
             tSlides[tIndex].classList.remove('active');
             tDots[tIndex].classList.replace('bg-amber-500', 'bg-slate-700');
@@ -461,7 +456,6 @@
         }
         setInterval(showNextTestimonial, 4000);
 
-        // VIDEO LOGIC
         const video = document.getElementById('aboutVideo');
         function toggleMute() {
             video.muted = !video.muted;
@@ -470,13 +464,12 @@
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if(entry.isIntersecting) video.play();
+                if(entry.isIntersecting) video.play().catch(() => {});
                 else video.pause();
             });
         }, { threshold: 0.5 });
         observer.observe(video);
 
-        // EVENTS MODAL LOGIC
         function showEventsAlert() {
             const modal = document.getElementById('eventsModal');
             modal.classList.remove('hidden');
@@ -489,27 +482,19 @@
             modal.classList.remove('flex');
         }
 
-        // WHATSAPP FEEDBACK LOGIC
         function sendWhatsAppFeedback(event) {
             event.preventDefault();
             const name = document.getElementById('feedbackName').value;
             const message = document.getElementById('feedbackMessage').value;
             const phoneNumber = "917002334058"; 
-
-            const finalMessage = `*NEW FEEDBACK FROM WEBSITE*%0A%0A` + 
-                                 `*Name:* ${encodeURIComponent(name)}%0A` + 
-                                 `*Message:* ${encodeURIComponent(message)}`;
-
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${finalMessage}`;
-            window.open(whatsappUrl, '_blank');
+            const finalMessage = `*NEW FEEDBACK FROM WEBSITE*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Message:* ${encodeURIComponent(message)}`;
+            window.open(`https://wa.me/${phoneNumber}?text=${finalMessage}`, '_blank');
             event.target.reset();
         }
 
         window.onclick = function(event) {
             const modal = document.getElementById('eventsModal');
-            if (event.target == modal) {
-                closeEventsAlert();
-            }
+            if (event.target == modal) closeEventsAlert();
         }
     </script>
 </body>
