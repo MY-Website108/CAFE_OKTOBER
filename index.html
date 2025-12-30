@@ -10,11 +10,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap');
 
         :root {
-            --bg-deep: #2a0f0f; 
-            --bg-accent: #491212;
+            --bg-deep: #0f0505; 
+            --bg-accent: #2a0f0f;
             --gold: #fbbf24;
+            --royal-gold: linear-gradient(45deg, #b8860b, #fbbf24, #ffecb3, #b8860b);
         }
 
+        /* --- GLOBAL MAJESTIC SMOOTHING --- */
+        * { cursor: default; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-deep);
@@ -23,199 +26,152 @@
             overflow-x: hidden;
             padding-bottom: 80px;
             width: 100%;
+            /* Fix for smooth scrolling on iOS */
+            -webkit-overflow-scrolling: touch;
         }
 
+        /* --- GLORIOUS TYPOGRAPHY --- */
         .royal-header {
             font-family: 'Playfair Display', serif;
-            letter-spacing: 0.15em;
-            text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+            letter-spacing: 0.25em;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            background: var(--royal-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s infinite linear;
+            background-size: 200% auto;
         }
 
+        /* --- NEXT-LEVEL BACKGROUND LAYER --- */
         .home-bg {
-            background: radial-gradient(circle at center, #471212 0%, #240e3e 100%);
+            position: relative;
+            background: radial-gradient(circle at center, #3d0f0f 0%, #000000 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 0 15px;
+            perspective: 1000px;
+        }
+
+        #bg-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            /* Performance Fix: Use GPU */
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        /* --- GLASSMORPHISM CARDS --- */
+        .about-card, .feedback-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px) scale(1.01);
+            border-color: rgba(251, 191, 36, 0.5);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.1);
+        }
+
+        .interactive-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: all;
+            z-index: 0;
         }
 
         /* --- FIXED BOTTOM NAVIGATION --- */
         .bottom-nav {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            background: linear-gradient(270deg, #3a69d6, #fc6640, #d71d1d, #9fac09);
-            background-size: 600% 600%;
-            animation: navGradientMove 10s ease infinite;
-            backdrop-filter: blur(10px);
-            border-top: 1px solid var(--gold);
+            bottom: 0; left: 0;
+            width: 100%; height: 75px;
+            background: rgba(15, 5, 5, 0.8);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-top: 1px solid rgba(251, 191, 36, 0.3);
             display: flex;
             justify-content: space-around;
             align-items: center;
-            z-index: 999;
-            padding: 5px 0;
+            z-index: 9999;
         }
 
-        @keyframes navGradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .bottom-nav a, .bottom-nav button {
-            color: #f8fafc;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 0.55rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            transition: 0.3s;
-            background: none;
-            border: none;
-            cursor: pointer;
-            flex: 1;
-        }
-
-        .nav-icon { 
-            font-size: 1.2rem; 
-            margin-bottom: 4px; 
-        }
-
-        .bottom-nav a:hover, .bottom-nav button:hover {
-            color: var(--gold);
-            transform: translateY(-2px);
-        }
-
-        /* --- HERO & SLIDESHOW --- */
-        .hero-dish-container {
-            position: relative; width: 260px; height: 260px;
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        .dish-wrapper {
-            position: absolute; width: 220px; height: 220px;
-            filter: drop-shadow(0 20px 50px rgba(0,0,0,0.9));
-            animation: float 2.5s ease-in-out infinite; z-index: 2;
-        }
-
-        .slide-img {
-            position: absolute; width: 100%; height: 100%;
-            object-fit: contain; opacity: 0; transition: opacity 0.8s ease-in-out;
-        }
-
-        .slide-img.active { opacity: 1; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(4deg); }
-        }
-
-        .orbit-item {
-            position: absolute; font-size: 2rem;
-            animation: circularOrbit 3.5s linear infinite;
-            z-index: 3; pointer-events: none;
-        }
-
-        @keyframes circularOrbit {
-            from { transform: rotate(0deg) translateX(130px) rotate(0deg); }
-            to { transform: rotate(360deg) translateX(130px) rotate(-360deg); }
-        }
-
-        /* --- SPECIALS SECTION: CAROUSEL & ORIGIN CENTER --- */
-        .specials-container {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* The origin dish - fixed at (0,0) center point */
-        .carousel-origin {
+        .nav-glow {
             position: absolute;
-            width: 90px;
-            height: 90px;
-            background: #2a0f0f;
-            border: 3px solid var(--gold);
-            border-radius: 50%;
-            overflow: hidden;
-            z-index: 20;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+            top: -1px; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            animation: navGlowMove 4s infinite linear;
         }
 
-        /* The orbiting dashed circle */
-        .circle-carousel {
-            width: 240px; 
-            height: 240px; 
-            border: 1px dashed rgba(251, 191, 36, 0.3);
-            border-radius: 50%; 
-            position: absolute; 
-            animation: rotateFull 15s linear infinite;
-            z-index: 10;
+        @keyframes navGlowMove {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
-        .carousel-item {
-            position: absolute; 
-            width: 65px; 
-            height: 65px; 
-            background: #1e293b; 
-            border: 2px solid var(--gold); 
-            border-radius: 50%; 
-            overflow: hidden;
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            animation: rotateFull 15s linear infinite reverse;
-        }
-
-        .carousel-origin img, .carousel-item img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-        }
-
-        @keyframes rotateFull { 
-            from { transform: rotate(0deg); } 
-            to { transform: rotate(360deg); } 
-        }
-
-        .about-card {
-            background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px);
-            border: 1px solid rgba(251, 191, 36, 0.2); border-radius: 24px;
-            padding: 1.5rem; transition: all 0.4s ease;
-        }
-
-        .video-container {
-            position: relative; border-radius: 20px; overflow: hidden;
-            border: 2px solid rgba(251, 191, 36, 0.3); background: black;
-            aspect-ratio: 16/9;
-        }
-
-        .thank-you-text {
-            background: linear-gradient(90deg, #fbbf24, #fff, #fbbf24);
+        /* --- MAJESTIC BUTTONS --- */
+        .btn-majestic {
+            background: var(--royal-gold);
             background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 5s linear infinite, glowPulse 3s ease-in-out infinite;
-            display: inline-block;
+            color: #000 !important;
+            font-weight: 800;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.3);
+            transition: 0.4s;
         }
 
+        .btn-majestic:hover {
+            background-position: right center;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(251, 191, 36, 0.5);
+        }
+
+        /* --- SECTION ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: 1.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            will-change: transform, opacity;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Existing Styles Preserved */
+        .bottom-nav a, .bottom-nav button { color: #f8fafc; text-decoration: none; display: flex; flex-direction: column; align-items: center; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; background: none; border: none; cursor: pointer; flex: 1; }
+        .nav-icon { font-size: 1.2rem; margin-bottom: 4px; }
+        .hero-dish-container { position: relative; width: 260px; height: 260px; display: flex; justify-content: center; align-items: center; z-index: 10; }
+        .dish-wrapper { position: absolute; width: 220px; height: 220px; filter: drop-shadow(0 20px 50px rgba(0,0,0,0.9)); animation: float 2.5s ease-in-out infinite; z-index: 2; }
+        .slide-img { position: absolute; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity 0.8s ease-in-out; }
+        .slide-img.active { opacity: 1; }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(4deg); } }
+        
+        /* THE LEAF ORBIT */
+        .leaf-orbit { position: absolute; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(251, 191, 36, 0.1); animation: spinLeaf 8s linear infinite; z-index: 10; pointer-events: none; }
+        .leaf-item { position: absolute; top: 0; left: 50%; transform: translateX(-50%); font-size: 1.8rem; filter: drop-shadow(0 0 10px rgba(74, 222, 128, 0.6)); }
+        @keyframes spinLeaf { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .specials-container { position: relative; width: 300px; height: 300px; display: flex; justify-content: center; align-items: center; }
+        .carousel-origin { position: absolute; width: 90px; height: 90px; background: #2a0f0f; border: 3px solid var(--gold); border-radius: 50%; overflow: hidden; z-index: 20; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 20px rgba(251, 191, 36, 0.4); }
+        .circle-carousel { width: 240px; height: 240px; border: 1px dashed rgba(251, 191, 36, 0.3); border-radius: 50%; position: absolute; animation: rotateFull 15s linear infinite; z-index: 10; }
+        .carousel-item { position: absolute; width: 65px; height: 65px; background: #1e293b; border: 2px solid var(--gold); border-radius: 50%; overflow: hidden; display: flex; justify-content: center; align-items: center; animation: rotateFull 15s linear infinite reverse; }
+        @keyframes rotateFull { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .video-container { position: relative; border-radius: 20px; overflow: hidden; border: 2px solid rgba(251, 191, 36, 0.3); background: black; aspect-ratio: 16/9; }
+        .thank-you-text { background: linear-gradient(90deg, #fbbf24, #fff, #fbbf24); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s linear infinite; display: inline-block; }
         @keyframes shine { to { background-position: 200% center; } }
-        @keyframes glowPulse {
-            0%, 100% { filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.3)); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5)); transform: scale(1.02); }
-        }
-
         .testimonial-container { position: relative; width: 100%; max-width: 350px; margin: 0 auto; overflow: hidden; }
         .testimonial-slide { display: none; animation: slideIn 0.5s ease-out; }
         .testimonial-slide.active { display: block; }
@@ -225,13 +181,16 @@
 </head>
 <body>
 
-    <header class="fixed top-0 w-full z-50 py-3 bg-slate-950/80 backdrop-blur-md border-b border-slate-800 flex justify-center items-center px-4">
-        <h1 class="royal-header text-lg md:text-3xl font-bold italic text-amber-500 uppercase">Cafe Oktober</h1>
+    <canvas id="bg-canvas" class="interactive-overlay"></canvas>
+
+    <header class="fixed top-0 w-full z-[10000] py-4 bg-black/40 backdrop-blur-xl border-b border-white/5 flex justify-center items-center px-4">
+        <h1 class="royal-header text-2xl md:text-4xl font-bold italic uppercase">Cafe Oktober</h1>
     </header>
 
     <nav class="bottom-nav">
+        <div class="nav-glow"></div>
         <a href="#home">
-            <i class="fas fa-home nav-icon"></i>
+            <i class="fas fa-home nav-icon text-amber-500"></i>
             <span>Home</span>
         </a>
         <a href="https://my-website108.github.io/menu-of-CAFE-OKTOBER/">
@@ -258,8 +217,10 @@
 
     <section id="home" class="home-bg pt-24 pb-10">
         <div class="hero-dish-container">
-            <div class="orbit-item">🍃</div>
-            <div class="absolute w-48 h-48 bg-amber-500/10 blur-[60px] rounded-full"></div>
+            <div class="leaf-orbit">
+                <div class="leaf-item">🍃</div>
+            </div>
+            <div class="absolute w-64 h-64 bg-amber-500/20 blur-[100px] rounded-full animate-pulse"></div>
             <div class="dish-wrapper" id="slideshow">
                 <img src="https://img.icons8.com/plasticine/400/spaghetti.png" class="slide-img active" alt="Dish 1">
                 <img src="https://img.icons8.com/plasticine/400/pizza.png" class="slide-img" alt="Dish 2">
@@ -267,24 +228,22 @@
                 <img src="https://img.icons8.com/plasticine/400/sushi.png" class="slide-img" alt="Dish 4">
             </div>
         </div>
-        <div class="text-center mt-6 px-4">
-            <h2 class="text-4xl md:text-7xl font-serif italic mb-2">Magic Kitchen</h2>
-            <p class="text-slate-400 uppercase tracking-widest text-[10px]">Flavor meets elegance in Bongaigaon</p>
+        <div class="text-center mt-10 px-4 z-10">
+            <h2 class="text-5xl md:text-8xl font-serif italic mb-4 tracking-tighter text-white drop-shadow-2xl">Magic Kitchen</h2>
+            <p class="text-amber-500/80 uppercase tracking-[0.4em] text-[12px] font-bold">Flavor meets elegance in Bongaigaon</p>
             <a href="https://my-website108.github.io/menu-of-CAFE-OKTOBER/" 
-               class="inline-block mt-6 px-8 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-full transition-transform active:scale-95 shadow-lg font-bold text-sm">
-               Reserve Now
+               class="btn-majestic inline-block mt-8 px-12 py-4 rounded-full shadow-2xl active:scale-95 text-sm uppercase">
+               Reserve Your Experience
             </a>
         </div>
     </section>
 
-    <section id="special" class="py-16 flex flex-col items-center bg-slate-900/30">
-        <h2 class="text-2xl font-serif mb-16 text-amber-500 uppercase tracking-widest">Our Specials</h2>
-        
+    <section id="special" class="py-24 flex flex-col items-center bg-transparent reveal">
+        <h2 class="text-3xl font-serif mb-16 text-amber-500 uppercase tracking-widest italic">Our Specials</h2>
         <div class="specials-container">
             <div class="carousel-origin">
                 <img src="chai.png" alt="Chai Original">
             </div>
-            
             <div class="circle-carousel">
                 <div class="carousel-item" style="top: -32px; left: 88px;"><img src="dish1.png" alt="1"></div>
                 <div class="carousel-item" style="top: 88px; right: -32px;"><img src="dish2.png" alt="2"></div>
@@ -294,42 +253,41 @@
         </div>
     </section>
 
-    <section id="about" class="py-16 px-6 bg-slate-950/20 scroll-mt-20">
-        <div class="max-w-5xl mx-auto space-y-8">
-            <h2 class="text-3xl font-serif text-amber-500 text-center uppercase italic">Our Story</h2>
-            
+    <section id="about" class="py-24 px-6 bg-transparent scroll-mt-20 reveal">
+        <div class="max-w-5xl mx-auto space-y-12">
+            <h2 class="text-4xl font-serif text-amber-500 text-center uppercase italic">Our Story</h2>
             <div class="about-card">
-                <p class="text-slate-200 leading-relaxed text-md mb-6">
-                    <span class="text-amber-500 font-bold">Cafe Oktober</span> in Bongaigaon, Assam, is a popular eatery known for its cozy ambiance, diverse menu, and aromatic coffees. From biryanis to pastries, we offer a vibrant spot for every gathering.
+                <p class="text-slate-200 leading-relaxed text-lg mb-8 italic">
+                    <span class="text-amber-500 font-bold text-2xl">Cafe Oktober</span> in Bongaigaon, Assam, is a popular eatery known for its cozy ambiance, diverse menu, and aromatic coffees. From biryanis to pastries, we offer a vibrant spot for every gathering.
                 </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs border-t border-amber-500/20 pt-6">
-                    <div>
-                        <p><strong class="text-amber-400">Cuisine:</strong> Indian, Chinese, Continental.</p>
-                        <p><strong class="text-amber-400">Features:</strong> Live Music & Cool Drinks.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm border-t border-amber-500/20 pt-10">
+                    <div class="space-y-4">
+                        <p><i class="fas fa-utensils mr-3 text-amber-500"></i><strong class="text-amber-400">Cuisine:</strong> Indian, Chinese, Continental.</p>
+                        <p><i class="fas fa-music mr-3 text-amber-500"></i><strong class="text-amber-400">Features:</strong> Live Music & Cool Drinks.</p>
                     </div>
-                    <div>
-                        <p><strong class="text-amber-400">Location:</strong> Near Agarwala Hospital, Chapaguri Road.</p>
-                        <p><strong class="text-amber-400">Delivery:</strong> Swiggy & Zomato available.</p>
+                    <div class="space-y-4">
+                        <p><i class="fas fa-map-marker-alt mr-3 text-amber-500"></i><strong class="text-amber-400">Location:</strong> Near Agarwala Hospital, Chapaguri Road.</p>
+                        <p><i class="fas fa-truck mr-3 text-amber-500"></i><strong class="text-amber-400">Delivery:</strong> Swiggy & Zomato available.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="about-card">
+            <div class="about-card p-2 overflow-hidden">
                 <div class="video-container">
                     <video id="aboutVideo" class="w-full h-full object-cover" loop muted playsinline>
                         <source src="about.mp4" type="video/mp4">
                     </video>
-                    <button onclick="toggleMute()" class="absolute bottom-4 right-4 bg-amber-600/80 p-2 rounded-full z-10">
-                        <span id="muteIcon">🔇</span>
+                    <button onclick="toggleMute()" class="absolute bottom-6 right-6 bg-amber-600/80 backdrop-blur-md p-4 rounded-full z-10 hover:scale-110 transition">
+                        <span id="muteIcon" class="text-xl">🔇</span>
                     </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="testimonials" class="py-16 px-6 bg-slate-900/40 scroll-mt-20">
+    <section id="testimonials" class="py-24 px-6 bg-transparent reveal">
         <div class="max-w-5xl mx-auto">
-            <h2 class="text-3xl font-serif text-amber-500 text-center uppercase italic mb-10">Voices of Our Guests</h2>
+            <h2 class="text-4xl font-serif text-amber-500 text-center uppercase italic mb-16">Voices of Our Guests</h2>
             <div class="testimonial-container">
                 <div class="testimonial-slide active">
                     <img src="abcd.png" alt="Testimonial 1" class="testimonial-img">
@@ -341,101 +299,215 @@
                     <img src="mno.png" alt="Testimonial 3" class="testimonial-img">
                 </div>
             </div>
-            <div class="flex justify-center mt-6 gap-2">
-                <div class="w-2 h-2 rounded-full bg-amber-500 t-dot"></div>
-                <div class="w-2 h-2 rounded-full bg-slate-700 t-dot"></div>
-                <div class="w-2 h-2 rounded-full bg-slate-700 t-dot"></div>
+            <div class="flex justify-center mt-10 gap-3">
+                <div class="w-3 h-3 rounded-full bg-amber-500 t-dot transition-all duration-500"></div>
+                <div class="w-3 h-3 rounded-full bg-slate-700 t-dot transition-all duration-500"></div>
+                <div class="w-3 h-3 rounded-full bg-slate-700 t-dot transition-all duration-500"></div>
             </div>
         </div>
     </section>
 
-    <section id="location" class="py-16 px-4 bg-slate-950">
+    <section id="location" class="py-24 px-4 bg-transparent reveal">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-serif text-amber-500 text-center uppercase italic mb-8 tracking-widest">Our Location</h2>
-            <div class="flex flex-col gap-6 items-stretch">
-                <div class="bg-slate-900 border border-amber-500/20 p-6 rounded-3xl flex flex-col justify-center shadow-xl">
-                    <div class="mb-4">
-                        <h3 class="text-amber-500 font-bold uppercase text-xs tracking-tighter mb-1">Find Us At</h3>
-                        <p class="text-slate-200 text-xs">Chapaguri Road, North Bongaigaon,<br>Near Agarwala Hospital, Assam 783380</p>
+            <h2 class="text-4xl font-serif text-amber-500 text-center uppercase italic mb-12 tracking-widest">Our Location</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
+                <div class="about-card flex flex-col justify-center">
+                    <div class="mb-8">
+                        <h3 class="text-amber-500 font-bold uppercase text-sm tracking-[0.2em] mb-4">Find Us At</h3>
+                        <p class="text-slate-200 text-lg">Chapaguri Road, North Bongaigaon,<br>Near Agarwala Hospital, Assam 783380</p>
                     </div>
-                    <div class="mb-6">
-                        <h3 class="text-amber-500 font-bold uppercase text-xs tracking-tighter mb-1">Delivery Partners</h3>
-                        <p class="text-slate-200 text-xs italic">Available on Swiggy & Zomato</p>
+                    <div class="mb-10">
+                        <h3 class="text-amber-500 font-bold uppercase text-sm tracking-[0.2em] mb-4">Delivery Partners</h3>
+                        <p class="text-slate-400 text-md italic">Available on Swiggy & Zomato</p>
                     </div>
                     <a href="https://maps.google.com" target="_blank" 
-                       class="text-center bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg text-sm">
-                        View Larger Map
+                       class="btn-majestic text-center py-4 rounded-2xl">
+                        Open in Google Maps
                     </a>
                 </div>
-
-                <div class="h-[300px] rounded-3xl overflow-hidden border-2 border-slate-800 shadow-2xl">
+                <div class="h-[450px] rounded-[40px] overflow-hidden border-4 border-amber-500/10 shadow-2xl">
                     <iframe width="100%" height="100%" frameborder="0" scrolling="no" 
-                        src="https://maps.google.com/maps?q=Cafe%20Oktober%20Bongaigaon&t=&z=13&ie=UTF8&iwloc=&output=embed" style="border:0;">
+                        src="https://maps.google.com/maps?q=Cafe%20Oktober%20Bongaigaon&t=&z=13&ie=UTF8&iwloc=&output=embed" style="border:0; filter: invert(90%) hue-rotate(180deg) contrast(1.2);">
                     </iframe>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="feedbackSection" class="py-16 px-6 border-t border-amber-500/10 scroll-mt-20">
-        <div class="max-w-xl mx-auto about-card">
-            <h2 class="text-2xl font-serif text-amber-500 text-center mb-6 italic">Please give Feedback</h2>
-            <form id="feedbackForm" class="space-y-4" onsubmit="sendWhatsAppFeedback(event)">
-                <input type="text" id="feedbackName" placeholder="Name" required class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl text-white outline-none focus:border-amber-500 text-sm">
-                <textarea id="feedbackMessage" placeholder="Your Experience..." rows="4" required class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl text-white outline-none focus:border-amber-500 text-sm"></textarea>
-                <button type="submit" class="w-full bg-amber-600 py-3 rounded-xl font-bold hover:bg-amber-500 transition-all text-sm">Send Feedback</button>
+    <section id="feedbackSection" class="py-24 px-6 border-t border-white/5 reveal">
+        <div class="max-w-2xl mx-auto about-card">
+            <h2 class="text-3xl font-serif text-amber-500 text-center mb-10 italic">Your Experience Matters</h2>
+            <form id="feedbackForm" class="space-y-6" onsubmit="sendWhatsAppFeedback(event)">
+                <div class="relative">
+                    <input type="text" id="feedbackName" placeholder=" " required class="peer w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-white outline-none focus:border-amber-500 transition-all">
+                    <label class="absolute left-5 top-5 text-slate-500 pointer-events-none transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-amber-500 peer-focus:bg-black px-2">Your Name</label>
+                </div>
+                <div class="relative">
+                    <textarea id="feedbackMessage" placeholder=" " rows="5" required class="peer w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-white outline-none focus:border-amber-500 transition-all"></textarea>
+                    <label class="absolute left-5 top-5 text-slate-500 pointer-events-none transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-amber-500 peer-focus:bg-black px-2">Message</label>
+                </div>
+                <button type="submit" class="btn-majestic w-full py-5 rounded-2xl">Send Feedback via WhatsApp</button>
             </form>
         </div>
     </section>
 
-    <footer class="bg-slate-950 pt-16 pb-24 px-6 border-t border-amber-500/10 relative">
+    <footer class="bg-black/80 pt-24 pb-32 px-6 border-t border-white/10 relative">
         <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
-                class="absolute -top-6 left-1/2 -translate-x-1/2 bg-amber-600 p-3 rounded-full shadow-2xl">
-            <i class="fas fa-chevron-up text-white"></i>
+                class="absolute -top-8 left-1/2 -translate-x-1/2 bg-amber-600 p-5 rounded-full shadow-[0_0_30px_rgba(251,191,36,0.5)] hover:scale-110 transition">
+            <i class="fas fa-chevron-up text-white text-xl"></i>
         </button>
 
         <div class="max-w-6xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16 text-center md:text-left mb-20">
                 <div>
-                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-4 text-sm">Order Online</h3>
-                    <div class="flex flex-col space-y-3 text-sm">
-                        <a href="https://www.swiggy.com/city/bongaigaon/cafe-oktober-chapaguri-road-chapaguri-road-bongaigaon-rest416825" target="_blank" class="text-slate-400"><i class="fas fa-motorcycle mr-2"></i> Swiggy</a>
-                        <a href="http://zoma.to/r/19889442" target="_blank" class="text-slate-400"><i class="fas fa-utensils mr-2"></i> Zomato</a>
+                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-8 text-sm">Fine Dining Home</h3>
+                    <div class="flex flex-col space-y-5 text-md">
+                        <a href="https://www.swiggy.com/city/bongaigaon/cafe-oktober-chapaguri-road-chapaguri-road-bongaigaon-rest416825" target="_blank" class="hover:text-amber-500 transition"><i class="fas fa-motorcycle mr-3"></i> Order Swiggy</a>
+                        <a href="http://zoma.to/r/19889442" target="_blank" class="hover:text-amber-500 transition"><i class="fas fa-utensils mr-3"></i> Order Zomato</a>
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-4 text-sm">Follow Us</h3>
-                    <div class="flex justify-center md:justify-start gap-6">
-                        <a href="https://www.instagram.com/cafe_oktober_bongaigaon" target="_blank"><i class="fab fa-instagram text-xl text-amber-500"></i></a>
-                        <a href="https://www.facebook.com/CafeOktober/" target="_blank"><i class="fab fa-facebook text-xl text-amber-500"></i></a>
+                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-8 text-sm">The Social Circle</h3>
+                    <div class="flex justify-center md:justify-start gap-10">
+                        <a href="https://www.instagram.com/cafe_oktober_bongaigaon" target="_blank" class="hover:scale-125 transition"><i class="fab fa-instagram text-3xl text-amber-500"></i></a>
+                        <a href="https://www.facebook.com/CafeOktober/" target="_blank" class="hover:scale-125 transition"><i class="fab fa-facebook text-3xl text-amber-500"></i></a>
                     </div>
                 </div>
-                <div class="text-xs text-slate-500">
-                    <p>© 2025 Cafe Oktober. All Rights Reserved.</p>
+                <div class="text-sm text-slate-500 flex items-center">
+                    <p>© 2025 Cafe Oktober. Designed for Grandeur. All Rights Reserved.</p>
                 </div>
             </div>
 
             <div class="text-center">
-                <h2 class="thank-you-text text-3xl md:text-7xl font-serif italic py-2">Thank You for Visiting!</h2>
-                <p class="text-slate-600 text-[8px] mt-4 uppercase tracking-[0.5em]">Bongaigaon's Magic Kitchen</p>
+                <h2 class="thank-you-text text-5xl md:text-9xl font-serif italic py-6">Thank You!</h2>
+                <p class="text-amber-500 text-[10px] mt-6 uppercase tracking-[1em] opacity-50">Bongaigaon's Magic Kitchen</p>
             </div>
         </div>
     </footer>
 
-    <div id="eventsModal" class="fixed inset-0 z-[1000] hidden items-center justify-center px-6 bg-slate-950/90 backdrop-blur-sm">
-        <div class="bg-slate-900 border-2 border-amber-500/30 p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl">
-            <div class="text-4xl mb-4">✨</div>
-            <h2 class="text-xl font-serif italic text-amber-500 mb-2">Stay Updated!</h2>
-            <p class="text-slate-400 text-xs mb-6">Follow our social media for live music and special events!</p>
-            <div class="flex flex-col gap-3">
-                <a href="https://www.instagram.com/cafe_oktober_bongaigaon" target="_blank" class="bg-amber-600 py-3 rounded-xl font-bold text-sm">📸 Instagram</a>
-                <a href="https://www.facebook.com/CafeOktober/" target="_blank" class="bg-slate-800 py-3 rounded-xl font-bold text-sm border border-slate-700">🔵 Facebook</a>
-                <button onclick="closeEventsAlert()" class="mt-2 text-slate-500 text-[10px] uppercase">Close</button>
+    <div id="eventsModal" class="fixed inset-0 z-[100000] hidden items-center justify-center px-6 bg-black/95 backdrop-blur-2xl">
+        <div class="about-card max-w-sm w-full text-center border-2 border-amber-500/50">
+            <div class="text-6xl mb-6">👑</div>
+            <h2 class="text-3xl font-serif italic text-amber-500 mb-4">Royal Updates</h2>
+            <p class="text-slate-400 text-sm mb-10 leading-relaxed">Experience live musical nights and royal celebrations. Join our inner circle on social media.</p>
+            <div class="flex flex-col gap-4">
+                <a href="https://www.instagram.com/cafe_oktober_bongaigaon" target="_blank" class="btn-majestic py-4 rounded-xl text-sm">📸 INSTAGRAM</a>
+                <a href="https://www.facebook.com/CafeOktober/" target="_blank" class="bg-white/5 py-4 rounded-xl font-bold text-sm border border-white/10 hover:bg-white/10 transition">FACEBOOK</a>
+                <button onclick="closeEventsAlert()" class="mt-6 text-slate-500 text-[10px] uppercase tracking-widest hover:text-white">Back to Home</button>
             </div>
         </div>
     </div>
 
     <script>
+        /* --- OPTIMIZED MAJESTIC PHYSICS ENGINE --- */
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 100 };
+        
+        // Mobile detection to reduce load
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const particleCount = isMobile ? 40 : 120; // Drastic reduction for mobile
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.density = (Math.random() * 20) + 1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(251, 191, 36, 0.3)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            update() {
+                if (mouse.x !== null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+                    if (distance < mouse.radius) {
+                        let forceDirectionX = dx / distance;
+                        let forceDirectionY = dy / distance;
+                        let force = (mouse.radius - distance) / mouse.radius;
+                        this.x -= forceDirectionX * force * this.density;
+                        this.y -= forceDirectionY * force * this.density;
+                    } else {
+                        if (this.x !== this.baseX) this.x -= (this.x - this.baseX) / 15;
+                        if (this.y !== this.baseY) this.y -= (this.y - this.baseY) / 15;
+                    }
+                }
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].draw();
+                particles[i].update();
+            }
+            if (!isMobile) connect(); // Only draw connections on Desktop for high FPS
+            requestAnimationFrame(animate);
+        }
+
+        function connect() {
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    let dx = particles[a].x - particles[b].x;
+                    let dy = particles[a].y - particles[b].y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+                    if (distance < 100) {
+                        ctx.strokeStyle = `rgba(251, 191, 36, ${0.1 - distance/1000})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Support both Touch and Mouse
+        const updateMouse = (e) => {
+            mouse.x = e.touches ? e.touches[0].clientX : e.clientX;
+            mouse.y = e.touches ? e.touches[0].clientY : e.clientY;
+        };
+        window.addEventListener('mousemove', updateMouse);
+        window.addEventListener('touchstart', updateMouse);
+        window.addEventListener('touchend', () => { mouse.x = null; mouse.y = null; });
+
+        init();
+        animate();
+
+        /* --- OPTIMIZED REVEAL --- */
+        const reveals = document.querySelectorAll(".reveal");
+        const observerOptions = { threshold: 0.15 };
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add("active");
+            });
+        }, observerOptions);
+        reveals.forEach(r => scrollObserver.observe(r));
+
+        /* --- PRESERVED LOGIC --- */
         const images = document.querySelectorAll('.slide-img');
         let currentIndex = 0;
         setInterval(() => {
@@ -462,13 +534,13 @@
             document.getElementById('muteIcon').innerText = video.muted ? "🔇" : "🔊";
         }
 
-        const observer = new IntersectionObserver((entries) => {
+        const videoObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) video.play().catch(() => {});
                 else video.pause();
             });
         }, { threshold: 0.5 });
-        observer.observe(video);
+        videoObserver.observe(video);
 
         function showEventsAlert() {
             const modal = document.getElementById('eventsModal');
@@ -490,11 +562,6 @@
             const finalMessage = `*NEW FEEDBACK FROM WEBSITE*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Message:* ${encodeURIComponent(message)}`;
             window.open(`https://wa.me/${phoneNumber}?text=${finalMessage}`, '_blank');
             event.target.reset();
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('eventsModal');
-            if (event.target == modal) closeEventsAlert();
         }
     </script>
 </body>
