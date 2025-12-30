@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe Oktober | Magic Kitchen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap');
+
+        :root {
+            --bg-deep: #2a0f0f; 
+            --bg-accent: #491212;
+            --gold: #fbbf24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: #f8fafc;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        .royal-header {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.3em;
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+        }
+
+        .home-bg {
+            background: radial-gradient(circle at center, #471212 0%, #240e3e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- FIXED BOTTOM NAVIGATION WITH GRADIENT ANIMATION --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            /* Animated Gradient Background */
+            background: linear-gradient(270deg, #3a69d6, #fc6640, #d71d1d, #9fac09);
+            background-size: 600% 600%;
+            animation: navGradientMove 10s ease infinite;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--gold);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 999;
+            padding: 5px 0;
+        }
+
+        @keyframes navGradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .bottom-nav a, .bottom-nav button {
+            color: #f8fafc;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: 0.3s;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .bottom-nav a:hover, .bottom-nav button:hover {
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .nav-icon {
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+        }
+
+        /* --- HERO & SLIDESHOW --- */
+        .hero-dish-container {
+            position: relative; width: 300px; height: 300px;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .dish-wrapper {
+            position: absolute; width: 260px; height: 260px;
+            filter: drop-shadow(0 20px 50px rgba(0,0,0,0.9));
+            animation: float 2.5s ease-in-out infinite; z-index: 2;
+        }
+
+        .slide-img {
+            position: absolute; width: 100%; height: 100%;
+            object-fit: contain; opacity: 0; transition: opacity 0.8s ease-in-out;
+        }
+
+        .slide-img.active { opacity: 1; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(4deg); }
+        }
+
+        .orbit-item {
+            position: absolute; font-size: 2.5rem;
+            animation: circularOrbit 3s linear infinite;
+            z-index: 3; pointer-events: none;
+        }
+
+        @keyframes circularOrbit {
+            from { transform: rotate(0deg) translateX(160px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(160px) rotate(-360deg); }
+        }
+
+        /* --- CIRCLE CAROUSEL (Specials) --- */
+        .circle-carousel {
+            width: 280px; height: 280px; border: 1px dashed rgba(251, 191, 36, 0.3);
+            border-radius: 50%; position: relative; animation: rotateFull 15s linear infinite;
+        }
+
+        .carousel-item {
+            position: absolute; width: 85px; height: 85px; background: #1e293b; 
+            border: 2px solid var(--gold); border-radius: 50%; overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+            animation: rotateFull 15s linear infinite reverse;
+        }
+
+        .carousel-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        @keyframes rotateFull { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* --- CARDS & VIDEO --- */
+        .about-card {
+            background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 191, 36, 0.2); border-radius: 24px;
+            padding: 2.5rem; transition: all 0.4s ease;
+        }
+
+        .video-container {
+            position: relative; border-radius: 20px; overflow: hidden;
+            border: 2px solid rgba(251, 191, 36, 0.3); background: black;
+        }
+
+        .thank-you-text {
+            background: linear-gradient(90deg, #fbbf24, #fff, #fbbf24);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 5s linear infinite, glowPulse 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.3)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.5)); transform: scale(1.02); }
+        }
+
+        /* Testimonial Slider Styles */
+        .testimonial-container {
+            position: relative;
+            max-width: 400px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .testimonial-slide {
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .testimonial-slide.active {
+            display: block;
+        }
+
+        .testimonial-img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="fixed top-0 w-full z-50 py-4 bg-slate-950/60 backdrop-blur-md border-b border-slate-800 flex justify-center items-center px-6">
+        <h1 class="royal-header text-xl md:text-3xl font-bold italic text-amber-500 uppercase">Cafe Oktober</h1>
+    </header>
+
+    <nav class="bottom-nav">
+        <a href="#home">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="https://my-website108.github.io/menu-of-CAFE-OKTOBER/">
+            <span class="nav-icon">🍽️</span>
+            <span>Menu</span>
+        </a>
+        <a href="#testimonials">
+            <span class="nav-icon">⭐</span>
+            <span>Reviews</span>
+        </a>
+        <a href="chefs.html" target="_blank">
+            <span class="nav-icon">👨‍🍳</span>
+            <span>Chefs</span>
+        </a>
+        <button onclick="showEventsAlert()">
+            <span class="nav-icon">✨</span>
+            <span>Events</span>
+        </button>
+        <a href="#feedbackSection">
+            <span class="nav-icon">💬</span>
+            <span>Feedback</span>
+        </a>
+    </nav>
+
+    <section id="home" class="home-bg pt-20">
+        <div class="hero-dish-container">
+            <div class="orbit-item">🍃</div>
+            <div class="absolute w-64 h-64 bg-amber-500/10 blur-[80px] rounded-full"></div>
+            <div class="dish-wrapper" id="slideshow">
+                <img src="https://img.icons8.com/plasticine/400/spaghetti.png" class="slide-img active" alt="Dish 1">
+                <img src="https://img.icons8.com/plasticine/400/pizza.png" class="slide-img" alt="Dish 2">
+                <img src="https://img.icons8.com/plasticine/400/hamburger.png" class="slide-img" alt="Dish 3">
+                <img src="https://img.icons8.com/plasticine/400/sushi.png" class="slide-img" alt="Dish 4">
+            </div>
+        </div>
+        <div class="text-center mt-10 px-4">
+            <h2 class="text-5xl md:text-7xl font-serif italic mb-2">Magic Kitchen</h2>
+            <p class="text-slate-400 uppercase tracking-widest text-xs">Flavor meets elegance in Bongaigaon</p>
+            <a href="https://my-website108.github.io/menu-of-CAFE-OKTOBER/" 
+               class="inline-block mt-8 px-10 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-full transition-transform active:scale-95 shadow-lg font-bold">
+               Reserve Now
+            </a>
+        </div>
+    </section>
+
+    <section id="special" class="py-24 flex flex-col items-center bg-slate-900/30">
+        <h2 class="text-3xl font-serif mb-20 text-amber-500 uppercase tracking-widest">Our Specials</h2>
+        <div class="circle-carousel">
+            <div class="carousel-item" style="top: -42px; left: 97px;"><img src="dish1.png" alt="1"></div>
+            <div class="carousel-item" style="top: 97px; right: -42px;"><img src="dish2.png" alt="2"></div>
+            <div class="carousel-item" style="bottom: -42px; left: 97px;"><img src="dish3.png" alt="3"></div>
+            <div class="carousel-item" style="top: 97px; left: -42px;"><img src="dish4.png" alt="4"></div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 px-6 bg-slate-950/20 scroll-mt-20">
+        <div class="max-w-5xl mx-auto space-y-10">
+            <h2 class="text-4xl font-serif text-amber-500 text-center uppercase italic">Our Story</h2>
+            
+            <div class="about-card">
+                <p class="text-slate-200 leading-relaxed text-lg mb-8">
+                    <span class="text-amber-500 font-bold">Cafe Oktober</span> in Bongaigaon, Assam, is a popular eatery known for its cozy ambiance, diverse menu, and aromatic coffees. From biryanis to pastries, we offer a vibrant spot for every gathering.
+                </p>
+                <div class="grid md:grid-cols-2 gap-6 text-sm border-t border-amber-500/20 pt-6">
+                    <div>
+                        <p><strong class="text-amber-400">Cuisine:</strong> Indian, Chinese, Continental.</p>
+                        <p><strong class="text-amber-400">Features:</strong> Live Music & Cool Drinks.</p>
+                    </div>
+                    <div>
+                        <p><strong class="text-amber-400">Location:</strong> Near Agarwala Hospital, Chapaguri Road.</p>
+                        <p><strong class="text-amber-400">Delivery:</strong> Swiggy & Zomato available.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-card">
+                <div class="video-container">
+                    <video id="aboutVideo" class="w-full h-auto" loop muted playsinline>
+                        <source src="about.mp4" type="video/mp4">
+                    </video>
+                    <button onclick="toggleMute()" class="absolute bottom-4 right-4 bg-amber-600 p-3 rounded-full z-10">
+                        <span id="muteIcon">🔇</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="py-24 px-6 bg-slate-900/40 scroll-mt-20">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-4xl font-serif text-amber-500 text-center uppercase italic mb-12">Voices of Our Guests</h2>
+            <div class="testimonial-container">
+                <div class="testimonial-slide active">
+                    <img src="abcd.png" alt="Testimonial 1" class="testimonial-img">
+                </div>
+                <div class="testimonial-slide">
+                    <img src="xyz.png" alt="Testimonial 2" class="testimonial-img">
+                </div>
+                <div class="testimonial-slide">
+                    <img src="mno.png" alt="Testimonial 3" class="testimonial-img">
+                </div>
+            </div>
+            <div class="flex justify-center mt-6 gap-2">
+                <div class="w-2 h-2 rounded-full bg-amber-500 t-dot"></div>
+                <div class="w-2 h-2 rounded-full bg-slate-700 t-dot"></div>
+                <div class="w-2 h-2 rounded-full bg-slate-700 t-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="location" class="py-24 px-6 bg-slate-950">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-serif text-amber-500 text-center uppercase italic mb-12 tracking-widest">Our Location</h2>
+            <div class="grid md:grid-cols-4 gap-6 items-stretch">
+                <div class="bg-slate-900 border border-amber-500/20 p-8 rounded-3xl md:col-span-1 flex flex-col justify-center shadow-xl">
+                    <div class="mb-6">
+                        <h3 class="text-amber-500 font-bold uppercase text-xs tracking-tighter mb-2">Find Us At</h3>
+                        <p class="text-slate-200 text-sm">Chapaguri Road, North Bongaigaon,<br>Near Agarwala Hospital,<br>Assam 783380</p>
+                    </div>
+                    <div class="mb-8">
+                        <h3 class="text-amber-500 font-bold uppercase text-xs tracking-tighter mb-2">Delivery Partners</h3>
+                        <p class="text-slate-200 text-sm italic">Available on Swiggy & Zomato</p>
+                    </div>
+                    <a href="https://maps.google.com" target="_blank" 
+                       class="text-center bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg active:scale-95">
+                        View Larger Map
+                    </a>
+                </div>
+
+                <div class="md:col-span-3 h-[500px] rounded-3xl overflow-hidden border-4 border-slate-800 shadow-2xl">
+                    <iframe 
+                        width="100%" 
+                        height="100%" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        src="https://maps.google.com/maps?q=Cafe%20Oktober%20Bongaigaon&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        style="border:0;">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="feedbackSection" class="py-24 px-6 border-t border-amber-500/10 scroll-mt-20">
+        <div class="max-w-xl mx-auto about-card">
+            <h2 class="text-3xl font-serif text-amber-500 text-center mb-8 italic">Please give Feedback</h2>
+            <form id="feedbackForm" class="space-y-4" onsubmit="sendWhatsAppFeedback(event)">
+                <input type="text" id="feedbackName" placeholder="Name" required class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl text-white outline-none focus:border-amber-500">
+                <textarea id="feedbackMessage" placeholder="Your Experience..." rows="4" required class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl text-white outline-none focus:border-amber-500"></textarea>
+                <button type="submit" class="w-full bg-amber-600 py-4 rounded-xl font-bold hover:bg-amber-500 transition-all active:scale-95 shadow-lg">Send Feedback</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-slate-950 pt-20 pb-24 px-6 border-t border-amber-500/10 relative">
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+                class="absolute -top-6 left-1/2 -translate-x-1/2 bg-amber-600 hover:bg-amber-500 p-3 rounded-full shadow-2xl transition-all active:scale-90">
+            <img src="https://img.icons8.com/ios-filled/24/ffffff/up.png" alt="Top">
+        </button>
+
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-12 text-center md:text-left mb-16">
+                <div>
+                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-6">Order Online</h3>
+                    <div class="flex flex-col space-y-4">
+                        <a href="https://www.swiggy.com/city/bongaigaon/cafe-oktober-chapaguri-road-chapaguri-road-bongaigaon-rest416825" target="_blank" class="text-slate-400 hover:text-white transition-colors flex items-center justify-center md:justify-start gap-2">
+                            🛵 Order via Swiggy
+                        </a>
+                        <a href="http://zoma.to/r/19889442" target="_blank" class="text-slate-400 hover:text-white transition-colors flex items-center justify-center md:justify-start gap-2">
+                            🍴 Order via Zomato
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-6">Follow The Magic</h3>
+                    <div class="flex justify-center md:justify-start gap-6">
+                        <a href="https://www.instagram.com/cafe_oktober_bongaigaon" target="_blank" class="hover:scale-110 transition-transform">
+                            <img src="https://img.icons8.com/ios-filled/30/fbbf24/instagram-new.png" alt="Instagram">
+                        </a>
+                        <a href="https://www.facebook.com/CafeOktober/" target="_blank" class="hover:scale-110 transition-transform">
+                            <img src="https://img.icons8.com/ios-filled/30/fbbf24/facebook-new.png" alt="Facebook">
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-amber-500 font-bold uppercase tracking-widest mb-6">Policy</h3>
+                    <ul class="text-slate-400 text-sm space-y-2">
+                        <li><span class="text-slate-500">© 2025 Cafe Oktober. All Rights Reserved.</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="border-slate-800 mb-10">
+
+            <div class="text-center overflow-hidden">
+                <h2 class="thank-you-text text-4xl md:text-7xl font-serif italic text-amber-500 py-4">
+                    Thank You for Visiting!
+                </h2>
+                <p class="text-slate-600 text-[10px] mt-8 uppercase tracking-[0.8em]">Bongaigaon's Magic Kitchen</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="eventsModal" class="fixed inset-0 z-[1000] hidden items-center justify-center px-6 bg-slate-950/90 backdrop-blur-sm">
+        <div class="bg-slate-900 border-2 border-amber-500/30 p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl transform transition-all">
+            <div class="text-4xl mb-4">✨</div>
+            <h2 class="text-2xl font-serif italic text-amber-500 mb-2">Stay Updated!</h2>
+            <p class="text-slate-400 text-sm mb-8 leading-relaxed">
+                Follow our social media pages to get the latest updates on live music, special menus, and upcoming events!
+            </p>
+            <div class="flex flex-col gap-3">
+                <a href="https://www.instagram.com/cafe_oktober_bongaigaon" target="_blank" class="bg-amber-600 hover:bg-amber-500 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
+                    📸 Follow on Instagram
+                </a>
+                <a href="https://www.facebook.com/CafeOktober/" target="_blank" class="bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all border border-slate-700">
+                    🔵 Follow on Facebook
+                </a>
+                <button onclick="closeEventsAlert()" class="mt-4 text-slate-500 text-xs uppercase tracking-widest hover:text-white">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SLIDESHOW LOGIC
+        const images = document.querySelectorAll('.slide-img');
+        let currentIndex = 0;
+        setInterval(() => {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }, 3000);
+
+        // TESTIMONIAL SLIDER LOGIC
+        const tSlides = document.querySelectorAll('.testimonial-slide');
+        const tDots = document.querySelectorAll('.t-dot');
+        let tIndex = 0;
+
+        function showNextTestimonial() {
+            tSlides[tIndex].classList.remove('active');
+            tDots[tIndex].classList.replace('bg-amber-500', 'bg-slate-700');
+            tIndex = (tIndex + 1) % tSlides.length;
+            tSlides[tIndex].classList.add('active');
+            tDots[tIndex].classList.replace('bg-slate-700', 'bg-amber-500');
+        }
+        setInterval(showNextTestimonial, 4000);
+
+        // VIDEO LOGIC
+        const video = document.getElementById('aboutVideo');
+        function toggleMute() {
+            video.muted = !video.muted;
+            document.getElementById('muteIcon').innerText = video.muted ? "🔇" : "🔊";
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) video.play();
+                else video.pause();
+            });
+        }, { threshold: 0.5 });
+        observer.observe(video);
+
+        // EVENTS MODAL LOGIC
+        function showEventsAlert() {
+            const modal = document.getElementById('eventsModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeEventsAlert() {
+            const modal = document.getElementById('eventsModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // WHATSAPP FEEDBACK LOGIC
+        function sendWhatsAppFeedback(event) {
+            event.preventDefault();
+            const name = document.getElementById('feedbackName').value;
+            const message = document.getElementById('feedbackMessage').value;
+            const phoneNumber = "917002334058"; 
+
+            const finalMessage = `*NEW FEEDBACK FROM WEBSITE*%0A%0A` + 
+                                 `*Name:* ${encodeURIComponent(name)}%0A` + 
+                                 `*Message:* ${encodeURIComponent(message)}`;
+
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${finalMessage}`;
+            window.open(whatsappUrl, '_blank');
+            event.target.reset();
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('eventsModal');
+            if (event.target == modal) {
+                closeEventsAlert();
+            }
+        }
+    </script>
+</body>
+</html>
