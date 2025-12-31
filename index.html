@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cafe Oktober | Magic Kitchen</title>
+    <link rel="icon" type="image/png" href="Gemini_Generated_Image_9o53ko9o53ko9o53.png">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -26,7 +28,6 @@
             overflow-x: hidden;
             padding-bottom: 80px;
             width: 100%;
-            /* Fix for smooth scrolling on iOS */
             -webkit-overflow-scrolling: touch;
         }
 
@@ -52,7 +53,19 @@
             justify-content: center;
             align-items: center;
             padding: 0 15px;
-            perspective: 1000px;
+            /* Enhanced 3D Perspective */
+            perspective: 2000px;
+            overflow: hidden;
+        }
+
+        /* 3D Wrapper for Sense effect */
+        .parallax-3d-wrapper {
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
         }
 
         #bg-canvas {
@@ -61,7 +74,6 @@
             width: 100%; height: 100%;
             z-index: 1;
             pointer-events: none;
-            /* Performance Fix: Use GPU */
             transform: translateZ(0);
             will-change: transform;
         }
@@ -129,6 +141,7 @@
             letter-spacing: 1px;
             box-shadow: 0 10px 20px rgba(251, 191, 36, 0.3);
             transition: 0.4s;
+            pointer-events: all;
         }
 
         .btn-majestic:hover {
@@ -153,14 +166,13 @@
         /* Existing Styles Preserved */
         .bottom-nav a, .bottom-nav button { color: #f8fafc; text-decoration: none; display: flex; flex-direction: column; align-items: center; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; background: none; border: none; cursor: pointer; flex: 1; }
         .nav-icon { font-size: 1.2rem; margin-bottom: 4px; }
-        .hero-dish-container { position: relative; width: 260px; height: 260px; display: flex; justify-content: center; align-items: center; z-index: 10; }
-        .dish-wrapper { position: absolute; width: 220px; height: 220px; filter: drop-shadow(0 20px 50px rgba(0,0,0,0.9)); animation: float 2.5s ease-in-out infinite; z-index: 2; }
+        .hero-dish-container { position: relative; width: 260px; height: 260px; display: flex; justify-content: center; align-items: center; z-index: 10; transform-style: preserve-3d; }
+        .dish-wrapper { position: absolute; width: 220px; height: 220px; filter: drop-shadow(0 20px 50px rgba(0,0,0,0.9)); animation: float 2.5s ease-in-out infinite; z-index: 2; transform: translateZ(50px); }
         .slide-img { position: absolute; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity 0.8s ease-in-out; }
         .slide-img.active { opacity: 1; }
-        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(4deg); } }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg) translateZ(50px); } 50% { transform: translateY(-15px) rotate(4deg) translateZ(80px); } }
         
-        /* THE LEAF ORBIT */
-        .leaf-orbit { position: absolute; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(251, 191, 36, 0.1); animation: spinLeaf 8s linear infinite; z-index: 10; pointer-events: none; }
+        .leaf-orbit { position: absolute; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(251, 191, 36, 0.1); animation: spinLeaf 8s linear infinite; z-index: 10; pointer-events: none; transform: translateZ(20px); }
         .leaf-item { position: absolute; top: 0; left: 50%; transform: translateX(-50%); font-size: 1.8rem; filter: drop-shadow(0 0 10px rgba(74, 222, 128, 0.6)); }
         @keyframes spinLeaf { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
@@ -213,28 +225,34 @@
             <i class="fas fa-comment-dots nav-icon"></i>
             <span>Feedback</span>
         </a>
+        <button onclick="window.JotFormAgent.open()">
+            <i class="fas fa-comment-medical nav-icon"></i>
+            <span>Chat</span>
+        </button>
     </nav>
 
     <section id="home" class="home-bg pt-24 pb-10">
-        <div class="hero-dish-container">
-            <div class="leaf-orbit">
-                <div class="leaf-item">🍃</div>
+        <div class="parallax-3d-wrapper" id="hero3D">
+            <div class="hero-dish-container">
+                <div class="leaf-orbit">
+                    <div class="leaf-item">🍃</div>
+                </div>
+                <div class="absolute w-64 h-64 bg-amber-500/20 blur-[100px] rounded-full animate-pulse"></div>
+                <div class="dish-wrapper" id="slideshow">
+                    <img src="https://img.icons8.com/plasticine/400/spaghetti.png" class="slide-img active" alt="Dish 1">
+                    <img src="https://img.icons8.com/plasticine/400/pizza.png" class="slide-img" alt="Dish 2">
+                    <img src="https://img.icons8.com/plasticine/400/hamburger.png" class="slide-img" alt="Dish 3">
+                    <img src="https://img.icons8.com/plasticine/400/sushi.png" class="slide-img" alt="Dish 4">
+                </div>
             </div>
-            <div class="absolute w-64 h-64 bg-amber-500/20 blur-[100px] rounded-full animate-pulse"></div>
-            <div class="dish-wrapper" id="slideshow">
-                <img src="https://img.icons8.com/plasticine/400/spaghetti.png" class="slide-img active" alt="Dish 1">
-                <img src="https://img.icons8.com/plasticine/400/pizza.png" class="slide-img" alt="Dish 2">
-                <img src="https://img.icons8.com/plasticine/400/hamburger.png" class="slide-img" alt="Dish 3">
-                <img src="https://img.icons8.com/plasticine/400/sushi.png" class="slide-img" alt="Dish 4">
+            <div class="text-center mt-10 px-4 z-10" style="transform: translateZ(100px);">
+                <h2 class="text-5xl md:text-8xl font-serif italic mb-4 tracking-tighter text-white drop-shadow-2xl">Magic Kitchen</h2>
+                <p class="text-amber-500/80 uppercase tracking-[0.4em] text-[12px] font-bold">Flavor meets elegance in Bongaigaon</p>
+                <a href="https://my-website108.github.io/menu-of-CAFE-OKTOBER/" 
+                   class="btn-majestic inline-block mt-8 px-12 py-4 rounded-full shadow-2xl active:scale-95 text-sm uppercase">
+                   Reserve Your Experience
+                </a>
             </div>
-        </div>
-        <div class="text-center mt-10 px-4 z-10">
-            <h2 class="text-5xl md:text-8xl font-serif italic mb-4 tracking-tighter text-white drop-shadow-2xl">Magic Kitchen</h2>
-            <p class="text-amber-500/80 uppercase tracking-[0.4em] text-[12px] font-bold">Flavor meets elegance in Bongaigaon</p>
-            <a href="https://my-website108.github.io/menu-of-CAFE-OKTOBER/" 
-               class="btn-majestic inline-block mt-8 px-12 py-4 rounded-full shadow-2xl active:scale-95 text-sm uppercase">
-               Reserve Your Experience
-            </a>
         </div>
     </section>
 
@@ -399,15 +417,30 @@
     </div>
 
     <script>
+        /* --- 3D SENSE ENGINE FOR HOME PAGE --- */
+        const hero = document.getElementById('hero3D');
+        window.addEventListener('mousemove', (e) => {
+            let x = (window.innerWidth / 2 - e.pageX) / 25;
+            let y = (window.innerHeight / 2 - e.pageY) / 25;
+            hero.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+
+        // Mobile Gyroscope/Touch sense
+        window.addEventListener('touchmove', (e) => {
+            let touch = e.touches[0];
+            let x = (window.innerWidth / 2 - touch.pageX) / 20;
+            let y = (window.innerHeight / 2 - touch.pageY) / 20;
+            hero.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+
         /* --- OPTIMIZED MAJESTIC PHYSICS ENGINE --- */
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
         let mouse = { x: null, y: null, radius: 100 };
         
-        // Mobile detection to reduce load
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        const particleCount = isMobile ? 40 : 120; // Drastic reduction for mobile
+        const particleCount = isMobile ? 40 : 120; 
 
         function resize() {
             canvas.width = window.innerWidth;
@@ -463,7 +496,7 @@
                 particles[i].draw();
                 particles[i].update();
             }
-            if (!isMobile) connect(); // Only draw connections on Desktop for high FPS
+            if (!isMobile) connect(); 
             requestAnimationFrame(animate);
         }
 
@@ -485,7 +518,6 @@
             }
         }
 
-        // Support both Touch and Mouse
         const updateMouse = (e) => {
             mouse.x = e.touches ? e.touches[0].clientX : e.clientX;
             mouse.y = e.touches ? e.touches[0].clientY : e.clientY;
@@ -563,9 +595,79 @@
             window.open(`https://wa.me/${phoneNumber}?text=${finalMessage}`, '_blank');
             event.target.reset();
         }
-    </script>   <script src='https://cdn.jotfor.ms/agent/embedjs/019b72b74f4776c8afcdb71d4902aa1fc0e6/embed.js'>
+    </script>
+    <script src='https://cdn.jotfor.ms/agent/embedjs/019b72b74f4776c8afcdb71d4902aa1fc0e6/embed.js'></script><style>
+    /* ... [Keep your existing styles] ... */
+
+    /* --- ADDED PARALLAX CLASSES --- */
+    .parallax-container {
+        perspective: 1000px;
+        transform-style: preserve-3d;
+    }
+
+    /* Floating "Layers" */
+    .float-layer {
+        transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+        will-change: transform;
+    }
+
+    /* Make the hero dish feel like it's 3D */
+    .hero-dish-container {
+        transform: translateZ(50px);
+        filter: drop-shadow(0 30px 60px rgba(0,0,0,0.8));
+    }
+
+    /* Floating elements for background depth */
+    .floating-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        z-index: 1;
+        pointer-events: none;
+        opacity: 0.3;
+    }
+</style>
+
+<div class="floating-orb bg-amber-600 w-96 h-96 top-20 -left-20 float-layer" data-speed="2"></div>
+<div class="floating-orb bg-red-900 w-80 h-80 bottom-40 -right-20 float-layer" data-speed="-3"></div>
+
+<script>
+    /* --- NEW FLOATING PARALLAX ENGINE --- */
+    document.addEventListener('mousemove', (e) => {
+        const layers = document.querySelectorAll('.float-layer');
+        const hero = document.querySelector('.hero-dish-container');
+        
+        const x = (window.innerWidth / 2 - e.pageX) / 25;
+        const y = (window.innerHeight / 2 - e.pageY) / 25;
+
+        // Move general floating layers
+        layers.forEach(layer => {
+            const speed = layer.getAttribute('data-speed') || 5;
+            const xShift = (window.innerWidth / 2 - e.pageX) / (speed * 10);
+            const yShift = (window.innerHeight / 2 - e.pageY) / (speed * 10);
+            layer.style.transform = `translateX(${xShift}px) translateY(${yShift}px)`;
+        });
+
+        // 3D tilt for the Hero Dish
+        if(hero) {
+            hero.style.transform = `rotateY(${-x}deg) rotateX(${y}deg) translateZ(50px)`;
+        }
+    });
+
+    // Mobile Support (Gyroscope)
+    window.addEventListener('deviceorientation', (e) => {
+        if (!e.gamma) return;
+        const hero = document.querySelector('.hero-dish-container');
+        const x = e.gamma / 2; // Tilt left/right
+        const y = e.beta / 2;  // Tilt front/back
+        
+        if(hero) {
+            hero.style.transform = `rotateY(${x}deg) rotateX(${y - 45}deg) translateZ(50px)`;
+        }
+    });
+
+    /* --- KEEP YOUR MESH & PARTICLE LOGIC BELOW --- */
+    // ... [Your existing canvas scripts] ...
 </script>
 </body>
 </html>
-
-
